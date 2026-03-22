@@ -23,9 +23,11 @@ const SEV_BG: Record<string, string> = {
 type Filter = 'ALL' | 'CRITICAL' | 'WATCH' | 'INFO'
 
 const NAV = [
-  { label: 'TERMINAL', path: '/terminal' },
-  { label: 'ALERTS',   path: '/alerts'   },
-  { label: 'QUERIES',  path: '/queries'  },
+  { label: 'TERMINAL',  path: '/terminal'  },
+  { label: 'DASHBOARD', path: '/dashboard' },
+  { label: 'ALERTS',    path: '/alerts'    },
+  { label: 'QUERIES',   path: '/queries'   },
+  { label: 'WHAT-IF',   path: '/whatif'    },
 ]
 
 export default function Alerts() {

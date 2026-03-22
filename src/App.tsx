@@ -1,18 +1,22 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Landing from './pages/Landing'
 import Terminal from './pages/Terminal'
+import Dashboard from './pages/Dashboard'
 import Alerts from './pages/Alerts'
 import Queries from './pages/Queries'
+import WhatIf from './pages/WhatIf'
 import './styles/globals.css'
 
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/"         element={<Landing />} />
-        <Route path="/terminal" element={<Terminal />} />
-        <Route path="/alerts"   element={<Alerts />} />
-        <Route path="/queries"  element={<Queries />} />
+        <Route path="/"          element={<Landing />} />
+        <Route path="/terminal"  element={<Terminal />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/alerts"    element={<Alerts />} />
+        <Route path="/queries"   element={<Queries />} />
+        <Route path="/whatif"    element={<WhatIf />} />
       </Routes>
     </BrowserRouter>
   )

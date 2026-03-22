@@ -35,9 +35,11 @@ const ALL_QUERIES: Query[] = [
 ]
 
 const NAV = [
-  { label: 'TERMINAL', path: '/terminal' },
-  { label: 'ALERTS',   path: '/alerts'   },
-  { label: 'QUERIES',  path: '/queries'  },
+  { label: 'TERMINAL',  path: '/terminal'  },
+  { label: 'DASHBOARD', path: '/dashboard' },
+  { label: 'ALERTS',    path: '/alerts'    },
+  { label: 'QUERIES',   path: '/queries'   },
+  { label: 'WHAT-IF',   path: '/whatif'    },
 ]
 
 const SOURCES = ['gdelt.org', 'thehindu.com', 'reuters.com', 'cfr.org', 'aljazeera.com']
@@ -92,30 +94,53 @@ export default function Queries() {
       <Ticker />
 
       {/* ── search + new query bar ── */}
-      <div className="shrink-0 grid border-b border-[rgba(200,240,37,0.12)] bg-[rgba(0,0,0,0.3)]" style={{ gridTemplateColumns: '1fr auto' }}>
-        <input
-          value={search}
-          onChange={e => setSearch(e.target.value)}
-          placeholder="SEARCH QUERY HISTORY..."
-          className="font-mono text-xs text-[#c8f025] bg-transparent border-0 border-r border-[rgba(200,240,37,0.12)] px-4 py-2.5 outline-none placeholder-[rgba(200,240,37,0.25)] tracking-wide"
-        />
-        <div className="flex">
+      {/* ── query input bar ── */}
+      <div
+        className="shrink-0 flex flex-col border-b border-[rgba(200,240,37,0.12)]"
+        style={{ background: 'rgba(7,18,24,0.95)' }}
+      >
+        {/* main new-query row */}
+        <div className="flex items-center border-b border-[rgba(200,240,37,0.08)]" style={{ minHeight: 56 }}>
+          <span className="font-mono text-[rgba(200,240,37,0.4)] text-base px-4 select-none shrink-0">&gt;</span>
           <input
             value={newQuery}
             onChange={e => setNewQuery(e.target.value)}
             onKeyDown={e => { if (e.key === 'Enter') handleNewQuery() }}
-            placeholder="NEW QUERY..."
-            className="font-mono text-xs text-[#c8f025] bg-transparent border-0 border-r border-[rgba(200,240,37,0.12)] px-4 py-2.5 outline-none placeholder-[rgba(200,240,37,0.25)] tracking-wide"
-            style={{ width: 320 }}
+            placeholder="Ask anything about India's strategic situation..."
+            className="flex-1 font-mono text-base bg-transparent border-0 outline-none tracking-wide py-4 pr-4"
+            style={{
+              color: 'rgba(255,255,255,0.92)',
+              caretColor: '#c8f025',
+            }}
           />
           <button
             onClick={handleNewQuery}
-            className={`font-mono text-xxs tracking-widest px-5 text-[#c8f025] border-0 cursor-pointer transition-colors duration-150 ${
-              isRunning ? 'bg-[rgba(200,240,37,0.1)]' : 'bg-transparent hover:bg-[rgba(200,240,37,0.06)]'
-            }`}
+            className="font-mono text-xs tracking-widest px-6 shrink-0 h-full cursor-pointer transition-all duration-150 border-l border-[rgba(200,240,37,0.12)]"
+            style={{
+              color: isRunning ? 'rgba(200,240,37,0.5)' : '#c8f025',
+              background: isRunning ? 'rgba(200,240,37,0.06)' : 'transparent',
+              minHeight: 56,
+              letterSpacing: '0.12em',
+            }}
+            onMouseEnter={e => { if (!isRunning) (e.currentTarget as HTMLElement).style.background = 'rgba(200,240,37,0.08)' }}
+            onMouseLeave={e => { if (!isRunning) (e.currentTarget as HTMLElement).style.background = 'transparent' }}
           >
             {isRunning ? '[ RUNNING... ]' : '[ EXECUTE ]'}
           </button>
+        </div>
+        {/* search history row */}
+        <div className="flex items-center" style={{ minHeight: 36 }}>
+          <span className="font-mono text-[rgba(200,240,37,0.25)] text-xs px-4 select-none shrink-0">HISTORY</span>
+          <input
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            placeholder="Filter past queries..."
+            className="flex-1 font-mono text-xs bg-transparent border-0 outline-none tracking-wide py-2 pr-4"
+            style={{
+              color: 'rgba(255,255,255,0.6)',
+              caretColor: '#c8f025',
+            }}
+          />
         </div>
       </div>
 
@@ -187,6 +212,7 @@ export default function Queries() {
                           position:     'relative',
                           left:         '-200%',
                           width:        '300%',
+                          minWidth:     0,
                           borderBottom: '1px solid rgba(200,240,37,0.12)',
                           borderTop:    '1px solid rgba(200,240,37,0.15)',
                           zIndex:       10,
@@ -213,12 +239,12 @@ export default function Queries() {
                           </div>
 
                           {/* 3-col content */}
-                          <div className="grid gap-6" style={{ gridTemplateColumns: '1fr 1fr 1fr' }}>
+                          <div className="grid gap-6" style={{ gridTemplateColumns: '1fr 1fr 1fr', minWidth: 0 }}>
 
                             {/* col 1 — answer */}
-                            <div>
+                            <div style={{ minWidth: 0, overflow: "hidden" }}>
                               <div className="font-mono text-xxs text-[rgba(255,255,255,0.2)] tracking-wider mb-3">ANSWER</div>
-                              <div className="font-mono text-xs text-[rgba(255,255,255,0.7)] leading-relaxed border-l-2 border-[#c8f025] pl-3">
+                              <div className="font-mono text-xs text-[rgba(255,255,255,0.7)] leading-relaxed border-l-2 border-[#c8f025] pl-3" style={{ wordBreak: "break-word", overflowWrap: "break-word" }}>
                                 {openRowQuery.answer}
                               </div>
                               <div className="mt-4">

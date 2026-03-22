@@ -3,12 +3,291 @@ import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import Globe from '../components/Globe'
 import Ticker from '../components/Ticker'
-import { NODES, ALERTS, QUERIES, NODE_COLORS } from '../data/mockdata'
+import { NODES, NODE_COLORS } from '../data/mockdata'
+import type { GeoNode } from '../data/mockdata'
+
+// ─── ontology descriptions ───────────────────────────────────────────────────
+const ONTOLOGY_DESC: Record<string, string> = {
+  country:          'Sovereign state — direct diplomatic/military actor',
+  chokepoint:       'Maritime or land corridor — trade & energy bottleneck',
+  buffer_state:     'Border nation — strategic depth for India',
+  string_of_pearls: 'Chinese port/base investment encircling India',
+  dependency:       'Economic vulnerability — leverage point for adversaries',
+}
+
+// ─── short blurbs per node ────────────────────────────────────────────────────
+const NODE_BLURB: Record<string, string> = {
+  Q668:    "India — pivot of all analysis. 100 impact.",
+  Q148:    "Primary adversary. BRI architect, LAC pressure.",
+  Q843:    "Nuclear-armed neighbor. ISI-backed proxy risk.",
+  Q837:    "Northern buffer. BRI MoU signed 2017.",
+  Q854:    "Hambantota — 99yr lease to China Merchants.",
+  Q902:    "Eastern buffer. Dual allegiance risk.",
+  Q836:    "Kyaukpyu port — China's Bay of Bengal anchor.",
+  Gwadar:  "CPEC anchor. PLA-N docking confirmed.",
+  Malacca: "80% of India's energy imports pass here.",
+  BRI:     "Belt & Road — China's strategic debt network.",
+  RE:      "India imports 72% rare earths from China.",
+  IL:      "Weapons supplier. Shared tech cooperation.",
+  RU:      "S-400, oil discount. Neutral-positive.",
+  US:      "Quad partner. Tech + defense deepening.",
+}
+
+// ─── filter tabs ──────────────────────────────────────────────────────────────
+const FILTERS = ['ALL', 'country', 'buffer_state', 'chokepoint', 'string_of_pearls', 'dependency'] as const
+type Filter = typeof FILTERS[number]
+
+// ─── NodeRegistryPanel ────────────────────────────────────────────────────────
+function NodeRegistryPanel({
+  nodes,
+  selectedNodeId,
+  onSelect,
+}: {
+  nodes: GeoNode[]
+  selectedNodeId: string | null
+  onSelect: (id: string | null) => void
+}) {
+  const [activeFilter, setActiveFilter] = useState<Filter>('ALL')
+  const [expandedId, setExpandedId]     = useState<string | null>(null)
+
+  const LIME  = '#c8f025'
+  const L45   = 'rgba(200,240,37,0.45)'
+  const L12   = 'rgba(200,240,37,0.12)'
+  const L06   = 'rgba(200,240,37,0.06)'
+  const L03   = 'rgba(200,240,37,0.03)'
+  const MUTED = 'rgba(255,255,255,0.2)'
+  const WHITE = 'rgba(255,255,255,0.85)'
+  const W55   = 'rgba(255,255,255,0.55)'
+
+  const filtered = activeFilter === 'ALL'
+    ? nodes
+    : nodes.filter(n => n.type === activeFilter)
+
+  // Sort by impact score descending
+  const sorted = [...filtered].sort((a, b) => b.impactScore - a.impactScore)
+
+  const handleCardClick = (id: string) => {
+    // Toggle expansion; also select the node in globe
+    if (expandedId === id) {
+      setExpandedId(null)
+      onSelect(null)
+    } else {
+      setExpandedId(id)
+      onSelect(id)
+    }
+  }
+
+  // Impact bar color
+  const impactColor = (score: number) =>
+    score >= 75 ? '#FF3131' : score >= 50 ? '#FFB800' : LIME
+
+  return (
+    <div className="flex flex-col flex-1 overflow-hidden">
+
+      {/* filter strip */}
+      <div
+        className="flex shrink-0 overflow-x-auto gap-0"
+        style={{ borderBottom: `1px solid ${L12}` }}
+      >
+        {FILTERS.map(f => (
+          <button
+            key={f}
+            onClick={() => setActiveFilter(f)}
+            className="font-mono text-xxs tracking-widest px-2.5 py-2 whitespace-nowrap bg-transparent border-0 cursor-pointer transition-all"
+            style={{
+              color:           activeFilter === f ? LIME : MUTED,
+              borderBottom:    activeFilter === f ? `1px solid ${LIME}` : '1px solid transparent',
+              background:      activeFilter === f ? L03 : 'transparent',
+            }}
+          >
+            {f === 'ALL' ? 'ALL' : f.replace(/_/g, ' ').toUpperCase()}
+          </button>
+        ))}
+      </div>
+
+      {/* node list */}
+      <div className="flex-1 overflow-y-auto">
+
+        {/* 2-col grid header */}
+        <div
+          className="grid px-2 py-1.5"
+          style={{
+            gridTemplateColumns: '1fr 1fr',
+            gap: '1px',
+            borderBottom: `1px solid ${L12}`,
+          }}
+        >
+          <span className="font-mono text-xxs" style={{ color: MUTED }}>ENTITY</span>
+          <span className="font-mono text-xxs text-right" style={{ color: MUTED }}>IMPACT</span>
+        </div>
+
+        {sorted.map(node => {
+          const isSelected = selectedNodeId === node.id
+          const isExpanded = expandedId === node.id
+          const color      = NODE_COLORS[node.type] || LIME
+          const score      = node.impactScore
+
+          return (
+            <div
+              key={node.id}
+              style={{
+                borderBottom:  `1px solid ${L12}`,
+                borderLeft:    isSelected ? `2px solid ${color}` : '2px solid transparent',
+                background:    isSelected ? `${color}08` : 'transparent',
+                transition:    'all 0.15s ease',
+              }}
+            >
+              {/* main row */}
+              <div
+                className="grid items-center px-2 py-2.5 cursor-pointer"
+                style={{ gridTemplateColumns: '16px 1fr auto' }}
+                onClick={() => handleCardClick(node.id)}
+                onMouseEnter={e => {
+                  if (!isSelected) (e.currentTarget as HTMLElement).style.background = L03
+                }}
+                onMouseLeave={e => {
+                  if (!isSelected) (e.currentTarget as HTMLElement).style.background = 'transparent'
+                }}
+              >
+                {/* color dot */}
+                <div
+                  className="w-2 h-2 rounded-full"
+                  style={{
+                    background: color,
+                    boxShadow:  isSelected ? `0 0 6px ${color}` : 'none',
+                  }}
+                />
+
+                {/* name + type */}
+                <div className="min-w-0 px-1.5">
+                  <div
+                    className="font-mono text-xs truncate"
+                    style={{ color: isSelected ? WHITE : W55 }}
+                  >
+                    {node.name}
+                  </div>
+                  <div
+                    className="font-mono text-xxs truncate"
+                    style={{ color: MUTED }}
+                  >
+                    {node.type.replace(/_/g, ' ')}
+                  </div>
+                </div>
+
+                {/* impact score + mini bar */}
+                <div className="flex flex-col items-end gap-1 pl-1">
+                  <span
+                    className="font-mono text-xxs"
+                    style={{ color: impactColor(score) }}
+                  >
+                    {score}
+                  </span>
+                  <div
+                    className="rounded-sm"
+                    style={{
+                      width:      36,
+                      height:     3,
+                      background: L06,
+                    }}
+                  >
+                    <div
+                      className="h-full rounded-sm"
+                      style={{
+                        width:      `${score}%`,
+                        background: impactColor(score),
+                        transition: 'width 0.4s ease',
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* expanded detail */}
+              <AnimatePresence>
+                {isExpanded && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.18 }}
+                    className="overflow-hidden"
+                  >
+                    <div
+                      className="px-3 pb-3 pt-1"
+                      style={{ borderTop: `1px solid ${L12}` }}
+                    >
+                      {/* blurb */}
+                      <p
+                        className="font-mono text-xs leading-relaxed mb-2"
+                        style={{ color: W55 }}
+                      >
+                        {NODE_BLURB[node.id] || ONTOLOGY_DESC[node.type]}
+                      </p>
+
+                      {/* key-value grid */}
+                      <div
+                        className="grid font-mono text-xxs"
+                        style={{ gridTemplateColumns: '1fr 1fr', rowGap: 4 }}
+                      >
+                        {[
+                          ['QID',    node.wikidataId],
+                          ['CONF',   (node.confidence * 100).toFixed(0) + '%'],
+                          ['LAT',    node.lat.toFixed(2)],
+                          ['LNG',    node.lng.toFixed(2)],
+                        ].map(([k, v]) => (
+                          <div key={k}>
+                            <span style={{ color: MUTED }}>{k} </span>
+                            <span style={{ color: LIME }}>{v}</span>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* ontology badge */}
+                      <div className="mt-2">
+                        <span
+                          className="font-mono text-xxs px-1.5 py-0.5 tracking-wide"
+                          style={{
+                            color,
+                            background: `${color}14`,
+                            border: `1px solid ${color}30`,
+                          }}
+                        >
+                          {node.type.replace(/_/g, ' ').toUpperCase()}
+                        </span>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          )
+        })}
+      </div>
+
+      {/* footer — ontology legend */}
+      <div
+        className="shrink-0 px-3 py-2 flex flex-wrap gap-x-3 gap-y-1"
+        style={{ borderTop: `1px solid ${L12}` }}
+      >
+        {Object.entries(NODE_COLORS).map(([type, color]) => (
+          <div key={type} className="flex items-center gap-1">
+            <div className="w-1.5 h-1.5 rounded-full" style={{ background: color }} />
+            <span className="font-mono text-xxs" style={{ color: MUTED }}>
+              {type.replace(/_/g, ' ')}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
 
 const NAV_ITEMS = [
-  { label: 'TERMINAL', path: '/terminal' },
-  { label: 'ALERTS',   path: '/alerts'   },
-  { label: 'QUERIES',  path: '/queries'  },
+  { label: 'TERMINAL',  path: '/terminal'  },
+  { label: 'DASHBOARD', path: '/dashboard' },
+  { label: 'ALERTS',    path: '/alerts'    },
+  { label: 'QUERIES',   path: '/queries'   },
+  { label: 'WHAT-IF',   path: '/whatif'    },
 ]
 
 // palette shorthands
@@ -35,11 +314,8 @@ export default function Terminal() {
   const handleQuery = useCallback(async () => {
     if (!queryInput.trim()) return
     setIsQuerying(true)
-    await new Promise(r => setTimeout(r, 1200))
-    const mock = QUERIES.find(q =>
-      q.question.toLowerCase().includes(queryInput.toLowerCase().split(' ')[0])
-    )
-    setQueryResult(mock?.answer || 'No matching intelligence found. Try: "China leverage", "treaty overlap", or "media tone".')
+    await new Promise(r => setTimeout(r, 800))
+    setQueryResult('Open the QUERIES page for full intelligence analysis.')
     setIsQuerying(false)
   }, [queryInput])
 
@@ -83,7 +359,7 @@ export default function Terminal() {
       <Ticker />
 
       {/* ── 3-panel ── */}
-      <div className="flex-1 grid overflow-hidden" style={{ gridTemplateColumns: '300px 1fr 280px' }}>
+      <div className="flex-1 grid overflow-hidden" style={{ gridTemplateColumns: '280px 1fr 300px' }}>
 
         {/* LEFT — query terminal */}
         <div
@@ -224,20 +500,6 @@ export default function Terminal() {
           >
             DRAG TO ROTATE
           </div>
-          {/* ontology legend */}
-          <div className="absolute bottom-3 left-3 flex flex-col gap-1.5 pointer-events-none">
-            {Object.entries(NODE_COLORS).map(([type, color]) => (
-              <div key={type} className="flex items-center gap-1.5">
-                <div className="w-1.5 h-1.5 rounded-full" style={{ background: color }} />
-                <span
-                  className="font-mono text-xxs tracking-wide"
-                  style={{ color: 'rgba(255,255,255,0.22)' }}
-                >
-                  {type.replace(/_/g, ' ')}
-                </span>
-              </div>
-            ))}
-          </div>
           {/* teal vignette bottom */}
           <div
             className="absolute bottom-0 left-0 right-0 pointer-events-none"
@@ -245,74 +507,30 @@ export default function Terminal() {
           />
         </div>
 
-        {/* RIGHT — alerts feed */}
+        {/* RIGHT — node registry */}
         <div
           className="flex flex-col overflow-hidden"
           style={{ borderLeft: `1px solid ${L12}`, background: '#071218' }}
         >
+          {/* header */}
           <div
-            className="flex justify-between items-center px-3 py-2.5"
+            className="flex justify-between items-center px-3 py-2.5 shrink-0"
             style={{ borderBottom: `1px solid ${L12}` }}
           >
             <span className="font-mono text-xxs tracking-widest" style={{ color: L45 }}>
-              PATTERN ALERTS
+              NODE REGISTRY
             </span>
-            <button
-              onClick={() => nav('/alerts')}
-              className="font-mono text-xxs px-2 py-0.5 bg-transparent cursor-pointer transition-colors"
-              style={{ color: MUTED, border: `1px solid ${L12}` }}
-              onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = L45}
-              onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = MUTED}
-            >
-              ALL →
-            </button>
+            <span className="font-mono text-xxs" style={{ color: MUTED }}>
+              {NODES.length} ENTITIES
+            </span>
           </div>
 
-          <div className="flex-1 overflow-y-auto">
-            {ALERTS.slice(0, 5).map(alert => {
-              const sevColor =
-                alert.severity === 'CRITICAL' ? '#FF3131' :
-                alert.severity === 'HIGH' || alert.severity === 'WATCH' ? '#FFB800' :
-                LIME
-              return (
-                <div
-                  key={alert.id}
-                  onClick={() => nav('/alerts')}
-                  className="px-3 py-3 cursor-pointer transition-colors"
-                  style={{
-                    borderBottom: `1px solid ${L12}`,
-                    borderLeft: `2px solid ${sevColor}`,
-                  }}
-                  onMouseEnter={e => (e.currentTarget as HTMLElement).style.background = L03}
-                  onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = 'transparent'}
-                >
-                  <div className="flex justify-between items-center mb-1.5">
-                    <span
-                      className="font-mono text-xxs px-1.5 py-0.5 tracking-wide"
-                      style={{
-                        color: sevColor,
-                        background:
-                          alert.severity === 'CRITICAL' ? 'rgba(255,49,49,0.12)' :
-                          alert.severity === 'WATCH'    ? 'rgba(255,184,0,0.12)' :
-                          L06,
-                      }}
-                    >
-                      {alert.severity}
-                    </span>
-                    <span className="font-mono text-xxs" style={{ color: MUTED }}>
-                      {alert.timestamp}
-                    </span>
-                  </div>
-                  <div className="font-mono text-xs mb-1 leading-snug" style={{ color: WHITE7 }}>
-                    {alert.title}
-                  </div>
-                  <div className="font-mono text-xxs" style={{ color: L45 }}>
-                    {alert.subtitle}
-                  </div>
-                </div>
-              )
-            })}
-          </div>
+          {/* filter tabs */}
+          <NodeRegistryPanel
+            nodes={NODES}
+            selectedNodeId={selectedNodeId}
+            onSelect={setSelectedNodeId}
+          />
         </div>
 
       </div>
