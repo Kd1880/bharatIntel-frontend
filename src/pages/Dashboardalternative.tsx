@@ -31,39 +31,22 @@ const DOMAIN_COLOR: Record<string, string> = {
 
 // ── consequence blurbs per node ───────────────────────────────────────────────
 const CONSEQUENCES: Record<string, { score: number; domains: string[]; bullets: string[] }> = {
-  India:                     { score: 100, domains: ["ALL"],                    bullets: ["Central node — all edges converge here", "Anchor of Bharatiya ontology", "Strategic pivot for every analysis"] },
-  China:                     { score: 91,  domains: ["GEOPOLITICS","DEFENSE"],  bullets: ["BRI encirclement risk to 6 buffer states", "PLA-N dual-use port access near Indian coast", "LAC standoff — 3,000+ forward positions"] },
-  Pakistan:                  { score: 87,  domains: ["DEFENSE","GEOPOLITICS"],  bullets: ["Nuclear-armed, ISI proxy networks active", "CPEC militarises India-Pakistan border arc", "Cross-border terror funding well-documented"] },
-  Nepal:                     { score: 72,  domains: ["GEOPOLITICS","ECONOMICS"],bullets: ["Northern buffer — BRI MoU signed 2017", "Kerung-Kathmandu railway under negotiation", "India-Nepal trade fell 16.6% in Sep 2025"] },
-  "Sri Lanka":               { score: 68,  domains: ["GEOPOLITICS","ECONOMICS"],bullets: ["Hambantota 99yr lease to China Merchants", "200nm from India southern coast", "Chinese influence deepening under Wickremesinghe"] },
-  Bangladesh:                { score: 61,  domains: ["GEOPOLITICS"],            bullets: ["Eastern buffer, dual allegiance risk", "BIMSTEC + SCO observer status", "Bangladesh unrest — instability spillover"] },
-  Myanmar:                   { score: 58,  domains: ["GEOPOLITICS"],            bullets: ["Kyaukpyu port — Bay of Bengal anchor", "Myanmar coup weakens buffer status", "BRI debt deepens China dependency"] },
-  Maldives:                  { score: 64,  domains: ["GEOPOLITICS"],            bullets: ["Muizzu pivot toward China under pressure", "Chinese FTA signed 2024", "India naval access agreements under strain"] },
-  "Gwadar Port":             { score: 83,  domains: ["DEFENSE","ECONOMICS"],    bullets: ["CPEC anchor, PLA-N docking confirmed", "400km from Indian coast — direct threat", "Submarine base construction reports"] },
-  "Hambantota Port":         { score: 79,  domains: ["GEOPOLITICS","ECONOMICS"],bullets: ["99yr lease to China Merchants Port", "200nm from India southern coast", "PLA-N resupply access implications"] },
-  "Strait of Malacca":       { score: 82,  domains: ["ECONOMICS"],              bullets: ["90% of India energy imports pass here", "Chinese naval build-up in South China Sea", "Disruption = economic strangulation"] },
-  "Belt and Road Initiative":{ score: 77,  domains: ["GEOPOLITICS","ECONOMICS"],bullets: ["China strategic debt network", "6 India-adjacent nations now enrolled", "Asset seizure precedent: Hambantota"] },
-  "Rare Earth":              { score: 85,  domains: ["ECONOMICS","TECHNOLOGY"], bullets: ["India imports 72% rare earths from China", "Export delays followed 3 of 4 LAC incidents", "Critical for EV, defense, semiconductor"] },
-  "Rare Earths":             { score: 85,  domains: ["ECONOMICS","TECHNOLOGY"], bullets: ["India imports 72% rare earths from China", "Export delays followed 3 of 4 LAC incidents", "Critical for EV, defense, semiconductor"] },
-  Israel:                    { score: 28,  domains: ["DEFENSE"],                bullets: ["Weapons supplier — Barak, Heron UAV", "Iron Beam tech transfer under negotiation", "Balanced relation, low strategic risk"] },
-  Russia:                    { score: 38,  domains: ["DEFENSE","ECONOMICS"],    bullets: ["S-400, oil at discount — positive", "INSTC corridor reduces Pakistan bypass need", "Ukraine war strain on arms delivery timelines"] },
-  "United States":           { score: 45,  domains: ["DEFENSE","TECHNOLOGY"],   bullets: ["Quad partner, tech + defense deepening", "Pentagon reaffirmed Arunachal as Indian", "Chip export deal under negotiation 2025"] },
-  Quad:                      { score: 62,  domains: ["DEFENSE","GEOPOLITICS"],  bullets: ["Four-nation alliance countering China in Indo-Pacific", "Joint maritime exercises increasing", "India strategic hedge against China"] },
-  Iran:                      { score: 55,  domains: ["ECONOMICS","GEOPOLITICS"],bullets: ["Chabahar Port — bypass route avoiding Pakistan", "Oil imports at discount despite US pressure", "Iran-Israel war threatens Hormuz shipping"] },
-  "Arunachal Pradesh":       { score: 88,  domains: ["GEOPOLITICS","DEFENSE"],  bullets: ["China claims as South Tibet", "PLA infrastructure buildup along border", "Population pressure from Chinese village construction"] },
-  "Line of Actual Control":  { score: 90,  domains: ["DEFENSE","GEOPOLITICS"],  bullets: ["3,488km unresolved border — 59 standoff points", "2020 Galwan clash — 20 Indian soldiers killed", "PLA forward deployment ongoing"] },
-  Kashmir:                   { score: 86,  domains: ["GEOPOLITICS","DEFENSE"],  bullets: ["Nuclear flashpoint — India-Pakistan core dispute", "Article 370 abrogation 2019 changed status quo", "Pakistan-backed proxy networks active"] },
-  "Brahmaputra River":       { score: 80,  domains: ["CLIMATE","GEOPOLITICS"],  bullets: ["China building world largest dam upstream", "Water weapon — flow control affects 50M Indians", "No bilateral water treaty with China"] },
-  CPEC:                      { score: 84,  domains: ["GEOPOLITICS","ECONOMICS"],bullets: ["62B corridor passes through Pakistan-occupied Kashmir", "Militarises India western flank", "Chinese troops embedded in CPEC security"] },
-  Semiconductor:             { score: 78,  domains: ["TECHNOLOGY","ECONOMICS"], bullets: ["India depends on Taiwan/South Korea — both China-adjacent", "Chip war implications for India tech sector", "2026 budget targets domestic semiconductor production"] },
-  Huawei:                    { score: 72,  domains: ["TECHNOLOGY"],             bullets: ["Banned from India 5G after Galwan 2020", "Still present in Bangladesh, Nepal, Pakistan networks", "Intelligence collection risk in neighborhood"] },
-  ISRO:                      { score: 55,  domains: ["TECHNOLOGY"],             bullets: ["Space capability gap vs China CNSA", "Chandrayaan-3 success reduces dependency", "Dual-use satellite tech for defense ISR"] },
-  "PLA Navy":                { score: 88,  domains: ["DEFENSE"],                bullets: ["Indian Ocean presence increasing — 7 bases", "Dual-use port access at Gwadar, Hambantota, Djibouti", "Blue water capability threatens India maritime dominance"] },
-  Doklam:                    { score: 82,  domains: ["DEFENSE","GEOPOLITICS"],  bullets: ["2017 standoff — India blocked Chinese road construction", "Tri-junction India-China-Bhutan — strategic chokepoint", "Chinese infrastructure continues post-standoff"] },
-  Q668:                      { score: 100, domains: ["ALL"],                    bullets: ["Central node", "Anchor of Bharatiya ontology", "Strategic pivot"] },
-  Q148:                      { score: 91,  domains: ["GEOPOLITICS","DEFENSE"],  bullets: ["BRI encirclement", "PLA-N dual-use ports", "LAC standoff"] },
-  Q843:                      { score: 87,  domains: ["DEFENSE","GEOPOLITICS"],  bullets: ["Nuclear-armed", "CPEC militarises border", "Cross-border terror"] },
+  Q668:    { score: 100, domains: ['ALL'],                    bullets: ['Central node — all edges converge here', 'Anchor of Bharatiya ontology', 'Strategic pivot for every analysis'] },
+  Q148:    { score: 91,  domains: ['GEOPOLITICS','DEFENSE'],  bullets: ['BRI encirclement risk to 6 buffer states', 'PLA-N dual-use port access near Indian coast', 'LAC standoff — 3,000+ forward positions'] },
+  Q843:    { score: 87,  domains: ['DEFENSE','GEOPOLITICS'],  bullets: ['Nuclear-armed, ISI proxy networks active', 'CPEC militarises India-Pakistan border arc', 'Cross-border terror funding well-documented'] },
+  Q837:    { score: 72,  domains: ['GEOPOLITICS','ECONOMICS'],bullets: ['Northern buffer — BRI MoU signed 2017', 'Kerung-Kathmandu railway under negotiation', 'India-Nepal trade fell 16.6% in Sep 2025'] },
+  Q854:    { score: 68,  domains: ['GEOPOLITICS','ECONOMICS'],bullets: ['Hambantota 99yr lease to China Merchants', '200nm from India\'s southern coast', 'Chinese oil refinery announced Q1 2025'] },
+  Q902:    { score: 61,  domains: ['GEOPOLITICS'],            bullets: ['Eastern buffer, dual allegiance risk', 'BIMSTEC + SCO observer status', 'Bangladesh unrest — instability spillover'] },
+  Q836:    { score: 58,  domains: ['GEOPOLITICS'],            bullets: ['Kyaukpyu port — Bay of Bengal anchor', 'Myanmar coup weakens buffer status', 'BRI debt deepens China dependency'] },
+  Gwadar:  { score: 83,  domains: ['DEFENSE','ECONOMICS'],   bullets: ['CPEC anchor, PLA-N docking confirmed', '400km from Indian coast — direct threat', 'Submarine base construction reports'] },
+  Malacca: { score: 79,  domains: ['ECONOMICS'],              bullets: ['80% of India\'s energy imports pass here', 'Chinese naval build-up in South China Sea', 'Disruption = economic strangulation'] },
+  BRI:     { score: 77,  domains: ['GEOPOLITICS','ECONOMICS'],bullets: ['China\'s strategic debt network', '6 India-adjacent nations now enrolled', 'Asset seizure precedent: Hambantota'] },
+  RE:      { score: 85,  domains: ['ECONOMICS','TECHNOLOGY'], bullets: ['India imports 72% rare earths from China', 'Export delays followed 3 of 4 LAC incidents', 'Critical for EV, defense, semiconductor'] },
+  IL:      { score: 22,  domains: ['DEFENSE'],                bullets: ['Weapons supplier — Barak, Heron UAV', 'Shared tech cooperation deepening', 'Balanced relation, low strategic risk'] },
+  RU:      { score: 34,  domains: ['DEFENSE','ECONOMICS'],    bullets: ['S-400, oil at discount — positive', 'INSTC corridor reduces Pakistan bypass need', 'Ukraine war strain on arms delivery'] },
+  US:      { score: 45,  domains: ['DEFENSE','TECHNOLOGY'],   bullets: ['Quad partner, tech + defense deepening', 'Pentagon reaffirmed Arunachal as Indian', 'Chip export deal under negotiation 2025'] },
 }
+
 const NAV_ITEMS = [
   { label: 'TERMINAL',  path: '/terminal'  },
   { label: 'DASHBOARD', path: '/dashboard' },
@@ -937,15 +920,7 @@ export default function Dashboard() {
     lng:         0,
     type:        (n.ontology_category || 'neutral') as any,
     wikidataId:  n.wikidata_id || '',
-    impactScore: (() => {
-      const cat = n.ontology_category || 'neutral'
-      const scoreMap: Record<string,number> = {
-        adversary: 88, border_flux_zone: 85, string_of_pearls: 80,
-        chokepoint: 78, dependency_vector: 75, military_actor: 70,
-        buffer_state: 65, allied_nation: 45, neutral: 30,
-      }
-      return scoreMap[cat] ?? 30
-    })(),
+    impactScore: 50,
     confidence:  0.75,
   }))
 
@@ -977,58 +952,32 @@ export default function Dashboard() {
   const IMPACTS  = ['ALL', 'HIGH', 'CRITICAL']
 
   return (
-    <div style={{
-      height: '100vh',
-      display: 'flex',
-      flexDirection: 'column',
-      overflow: 'hidden',
-      background: BG,
-      fontFamily: 'JetBrains Mono, monospace',
-    }}>
+    <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', overflow: 'hidden', background: BG, fontFamily: 'JetBrains Mono, monospace' }}>
 
       {/* ── NAVBAR ── */}
-      <div style={{
-        height: 52,
-        display: 'flex',
-        alignItems: 'center',
-        gap: 24,
-        padding: '0 20px',
-        borderBottom: `1px solid ${L12}`,
-        background: 'rgba(3,10,13,0.98)',
-        flexShrink: 0,
-      }}>
-        <span style={{ fontSize: 14, fontWeight: 700, letterSpacing: '0.14em', color: LIME }}>BHARATINTEL</span>
-        <div style={{ width: 1, height: 18, background: L12 }} />
+      <div style={{ height: 48, display: 'flex', alignItems: 'center', gap: 24, padding: '0 16px', borderBottom: `1px solid ${L12}`, background: 'rgba(3,10,13,0.95)', flexShrink: 0 }}>
+        <span style={{ fontSize: 13, fontWeight: 600, letterSpacing: '0.12em', color: LIME }}>BHARATINTEL</span>
+        <div style={{ width: 1, height: 16, background: L12 }} />
         {NAV_ITEMS.map(item => (
-          <button key={item.label} onClick={() => nav(item.path)} style={{
-            fontFamily: 'JetBrains Mono, monospace',
-            fontSize: 11,
-            letterSpacing: '0.1em',
-            color: item.label === 'DASHBOARD' ? LIME : MUTED,
-            background: 'transparent',
-            border: 'none',
-            borderBottom: item.label === 'DASHBOARD' ? `1px solid ${LIME}` : '1px solid transparent',
-            cursor: 'pointer',
-            paddingBottom: 2,
-          }}>{item.label}</button>
+          <button
+            key={item.label}
+            onClick={() => nav(item.path)}
+            style={{
+              fontFamily: 'JetBrains Mono, monospace',
+              fontSize: 11,
+              letterSpacing: '0.1em',
+              color: item.label === 'DASHBOARD' ? LIME : MUTED,
+              background: 'transparent',
+              border: 'none',
+              borderBottom: item.label === 'DASHBOARD' ? `1px solid ${LIME}` : '1px solid transparent',
+              cursor: 'pointer',
+              paddingBottom: 2,
+            }}
+          >
+            {item.label}
+          </button>
         ))}
         <div style={{ flex: 1 }} />
-        {/* search */}
-        <input
-          value={searchTerm}
-          onChange={e => setSearchTerm(e.target.value)}
-          placeholder="Search entity..."
-          style={{
-            fontFamily: 'JetBrains Mono, monospace',
-            fontSize: 11,
-            color: LIME,
-            background: L03,
-            border: `1px solid ${L12}`,
-            padding: '5px 10px',
-            outline: 'none',
-            width: 180,
-          }}
-        />
         <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11, color: L45 }}>
           <div style={{ width: 6, height: 6, borderRadius: '50%', background: LIME, animation: 'pulse-green 2s infinite' }} />
           LIVE · {totalNodes} NODES · {lastUpdated} IST
@@ -1036,182 +985,165 @@ export default function Dashboard() {
       </div>
 
       {/* ── BENTO BODY ── */}
-      <div style={{ flex: 1, overflow: 'auto', padding: 16, display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <div style={{ flex: 1, display: 'grid', gridTemplateColumns: '280px minmax(0, 1fr) 380px', overflow: 'hidden' }}>
 
-        {/* ── ROW 1: 4 stat cards ── */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, flexShrink: 0 }}>
-          {[
-            { label: 'TOTAL NODES',   value: totalNodes,  color: LIME,      icon: '◉', sub: 'entities in graph' },
-            { label: 'TOTAL EDGES',   value: totalEdges,  color: LIME,      icon: '⟶', sub: 'relationships' },
-            { label: 'HIGH IMPACT',   value: highEdges,   color: '#FF3131', icon: '⚠', sub: 'threat edges' },
-            { label: 'LAST UPDATED',  value: lastUpdated, color: L45,       icon: '◷', sub: 'IST' },
-          ].map(({ label, value, color, icon, sub }) => (
-            <div key={label} style={{
-              background: SURF,
-              border: `1px solid ${L12}`,
-              borderRadius: 12,
-              padding: '18px 20px',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 6,
-              position: 'relative',
-              overflow: 'hidden',
-            }}>
-              <div style={{ position: 'absolute', top: 14, right: 16, fontSize: 20, opacity: 0.12, color }}>{icon}</div>
-              <div style={{ fontSize: 10, color: MUTED, letterSpacing: '0.12em' }}>{label}</div>
-              <div style={{ fontSize: 28, fontWeight: 700, color, letterSpacing: '-0.02em', lineHeight: 1 }}>{value}</div>
-              <div style={{ fontSize: 9, color: MUTED }}>{sub}</div>
-            </div>
-          ))}
-        </div>
+        {/* ════ LEFT — filters + stats ════ */}
+        <div style={{ borderRight: `1px solid ${L12}`, background: SURF, display: 'flex', flexDirection: 'column', overflow: 'hidden', minWidth: 0 }}>
 
-        {/* ── ROW 2: domain pills + impact filter ── */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 8,
-          background: SURF,
-          border: `1px solid ${L12}`,
-          borderRadius: 10,
-          padding: '10px 16px',
-          flexShrink: 0,
-          flexWrap: 'wrap',
-        }}>
-          <span style={{ fontSize: 9, color: MUTED, letterSpacing: '0.1em', marginRight: 4 }}>DOMAIN</span>
-          {DOMAINS.map(d => (
-            <button key={d} onClick={() => setFilterDomain(d)} style={{
-              fontFamily: 'JetBrains Mono, monospace',
-              fontSize: 9,
-              letterSpacing: '0.08em',
-              color: filterDomain === d ? (DOMAIN_COLOR[d] || LIME) : MUTED,
-              background: filterDomain === d ? `${DOMAIN_COLOR[d] || LIME}18` : 'transparent',
-              border: `1px solid ${filterDomain === d ? (DOMAIN_COLOR[d] || LIME) + '55' : L06}`,
-              padding: '4px 10px',
-              borderRadius: 20,
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: 5,
-            }}>
-              {d !== 'ALL' && <span style={{ width: 5, height: 5, borderRadius: '50%', background: DOMAIN_COLOR[d] || LIME, display: 'inline-block' }} />}
-              {d}
-            </button>
-          ))}
-          <div style={{ width: 1, height: 16, background: L12, margin: '0 4px' }} />
-          <span style={{ fontSize: 9, color: MUTED, letterSpacing: '0.1em' }}>IMPACT</span>
-          {IMPACTS.map(i => (
-            <button key={i} onClick={() => setFilterImpact(i)} style={{
-              fontFamily: 'JetBrains Mono, monospace',
-              fontSize: 9,
-              letterSpacing: '0.08em',
-              color: filterImpact === i ? (i === 'CRITICAL' ? '#FF3131' : i === 'HIGH' ? '#FFB800' : LIME) : MUTED,
-              background: filterImpact === i ? L06 : 'transparent',
-              border: `1px solid ${filterImpact === i ? L20 : L06}`,
-              padding: '4px 10px',
-              borderRadius: 20,
-              cursor: 'pointer',
-            }}>{i}</button>
-          ))}
-        </div>
-
-        {/* ── ROW 3: main content grid ── */}
-        <div style={{
-          flex: 1,
-          display: 'grid',
-          gridTemplateColumns: '1fr 360px',
-          gridTemplateRows: 'minmax(0, 1fr) auto',
-          gap: 12,
-          minHeight: 0,
-        }}>
-
-          {/* ── GRAPH CARD ── */}
-          <div style={{
-            background: '#020e14',
-            border: `1px solid ${L12}`,
-            borderRadius: 12,
-            display: 'flex',
-            flexDirection: 'column',
-            overflow: 'hidden',
-            position: 'relative',
-            gridRow: '1 / 3',
-          }}>
-            {/* card header */}
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              padding: '10px 16px',
-              borderBottom: `1px solid ${L12}`,
-              flexShrink: 0,
-            }}>
-              <span style={{ fontSize: 10, color: L45, letterSpacing: '0.12em' }}>⊞ KNOWLEDGE GRAPH</span>
-              <span style={{ fontSize: 9, color: 'rgba(200,240,37,0.2)', letterSpacing: '0.06em' }}>SCROLL TO ZOOM · DRAG NODES</span>
-            </div>
-            {/* graph */}
-            <div style={{ flex: 1, overflow: 'hidden' }}>
-              <ForceGraph
-                nodes={NODES}
-                edges={EDGES}
-                filterDomain={filterDomain}
-                filterImpact={filterImpact}
-                searchTerm={searchTerm}
-                cutoffDate={cutoffDate}
-                selectedNodeId={selectedNodeId}
-                onNodeClick={id => setSelectedNodeId(prev => prev === id ? null : id)}
-              />
-            </div>
-            {/* time machine */}
-            <TimeMachine value={cutoffDate} onChange={setCutoffDate} />
-          </div>
-
-          {/* ── INTEL PANEL CARD ── */}
-          <div style={{
-            background: SURF,
-            border: `1px solid ${L12}`,
-            borderRadius: 12,
-            overflow: 'hidden',
-            display: 'flex',
-            flexDirection: 'column',
-          }}>
-            <div style={{
-              padding: '10px 16px',
-              borderBottom: `1px solid ${L12}`,
-              flexShrink: 0,
-              display: 'flex',
-              alignItems: 'center',
-              gap: 8,
-            }}>
-              <span style={{ fontSize: 10, color: L45, letterSpacing: '0.12em' }}>INTEL PANEL</span>
-              {selectedNode && (
-                <>
-                  <span style={{ fontSize: 9, color: MUTED }}>·</span>
-                  <span style={{ fontSize: 10, color: LIME }}>{selectedNode.name.toUpperCase()}</span>
-                </>
-              )}
-            </div>
-            <div style={{ flex: 1, overflow: 'hidden' }}>
-              <IntelPanel selectedNode={selectedNode} alerts={alerts} nodes={NODES} edges={EDGES} />
-            </div>
-          </div>
-
-          {/* ── ONTOLOGY LEGEND CARD ── */}
-          <div style={{
-            background: SURF,
-            border: `1px solid ${L12}`,
-            borderRadius: 12,
-            padding: '14px 16px',
-          }}>
-            <div style={{ fontSize: 9, color: MUTED, letterSpacing: '0.12em', marginBottom: 10 }}>ONTOLOGY LEGEND</div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px 12px' }}>
-              {Object.entries(NODE_COLORS).map(([type, color]) => (
-                <div key={type} style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-                  <div style={{ width: 7, height: 7, borderRadius: '50%', background: color, flexShrink: 0 }} />
-                  <span style={{ fontSize: 9, color: MUTED, letterSpacing: '0.04em' }}>{type.replace(/_/g, ' ')}</span>
+          {/* stats 2x2 grid */}
+          <div style={{ padding: 12, borderBottom: `1px solid ${L12}`, flexShrink: 0 }}>
+            <div style={{ fontSize: 10, color: MUTED, letterSpacing: '0.1em', marginBottom: 10 }}>GRAPH STATISTICS</div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+              {[
+                { label: 'NODES',   value: totalNodes,  color: LIME     },
+                { label: 'EDGES',   value: totalEdges,  color: LIME     },
+                { label: 'HIGH',    value: highEdges,   color: '#FF3131'},
+                { label: 'UPDATED', value: lastUpdated, color: L45      },
+              ].map(({ label, value, color }) => (
+                <div key={label} style={{ background: L03, border: `1px solid ${L06}`, padding: '12px 14px' }}>
+                  <div style={{ fontSize: 22, fontWeight: 700, color, marginBottom: 4, letterSpacing: '-0.02em' }}>{value}</div>
+                  <div style={{ fontSize: 10, color: MUTED, letterSpacing: '0.12em' }}>{label}</div>
                 </div>
               ))}
             </div>
           </div>
 
+          {/* domain filters */}
+          <div style={{ padding: 12, borderBottom: `1px solid ${L12}`, flexShrink: 0 }}>
+            <div style={{ fontSize: 10, color: MUTED, letterSpacing: '0.1em', marginBottom: 8 }}>DOMAIN FILTER</div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+              {DOMAINS.map(d => (
+                <button
+                  key={d}
+                  onClick={() => setFilterDomain(d)}
+                  style={{
+                    fontFamily: 'JetBrains Mono, monospace',
+                    fontSize: 10,
+                    letterSpacing: '0.08em',
+                    color: filterDomain === d ? (DOMAIN_COLOR[d] || LIME) : MUTED,
+                    background: filterDomain === d ? `${DOMAIN_COLOR[d] || LIME}0f` : 'transparent',
+                    border: `1px solid ${filterDomain === d ? (DOMAIN_COLOR[d] || LIME) + '40' : L06}`,
+                    padding: '5px 10px',
+                    cursor: 'pointer',
+                    textAlign: 'left',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 8,
+                  }}
+                >
+                  {d !== 'ALL' && <span style={{ width: 6, height: 6, borderRadius: '50%', background: DOMAIN_COLOR[d] || LIME, display: 'inline-block', flexShrink: 0 }} />}
+                  {d}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* impact filter */}
+          <div style={{ padding: 12, borderBottom: `1px solid ${L12}`, flexShrink: 0 }}>
+            <div style={{ fontSize: 10, color: MUTED, letterSpacing: '0.1em', marginBottom: 8 }}>IMPACT FILTER</div>
+            <div style={{ display: 'flex', gap: 6 }}>
+              {IMPACTS.map(i => (
+                <button
+                  key={i}
+                  onClick={() => setFilterImpact(i)}
+                  style={{
+                    fontFamily: 'JetBrains Mono, monospace',
+                    fontSize: 9,
+                    letterSpacing: '0.08em',
+                    color: filterImpact === i ? (i === 'CRITICAL' ? '#FF3131' : i === 'HIGH' ? '#FFB800' : LIME) : MUTED,
+                    background: filterImpact === i ? L06 : 'transparent',
+                    border: `1px solid ${filterImpact === i ? L20 : L06}`,
+                    padding: '4px 8px',
+                    cursor: 'pointer',
+                  }}
+                >
+                  {i}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* entity search */}
+          <div style={{ padding: 12, borderBottom: `1px solid ${L12}`, flexShrink: 0 }}>
+            <div style={{ fontSize: 10, color: MUTED, letterSpacing: '0.1em', marginBottom: 8 }}>ENTITY SEARCH</div>
+            <input
+              value={searchTerm}
+              onChange={e => setSearchTerm(e.target.value)}
+              placeholder="Search entity..."
+              style={{
+                width: '100%',
+                fontFamily: 'JetBrains Mono, monospace',
+                fontSize: 11,
+                color: LIME,
+                background: L03,
+                border: `1px solid ${L12}`,
+                padding: '6px 8px',
+                outline: 'none',
+                boxSizing: 'border-box',
+              }}
+            />
+          </div>
+
+          {/* ontology legend */}
+          <div style={{ padding: 12, flex: 1 }}>
+            <div style={{ fontSize: 10, color: MUTED, letterSpacing: '0.1em', marginBottom: 10 }}>ONTOLOGY LEGEND</div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
+              {Object.entries(NODE_COLORS).map(([type, color]) => (
+                <div key={type} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <div style={{ width: 8, height: 8, borderRadius: '50%', background: color, flexShrink: 0 }} />
+                  <span style={{ fontSize: 10, color: MUTED, letterSpacing: '0.06em' }}>{type.replace(/_/g, ' ')}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* ════ CENTER — graph canvas ════ */}
+        <div style={{ display: 'flex', flexDirection: 'column', background: '#020e14', position: 'relative', overflow: 'hidden' }}>
+
+          {/* graph label */}
+          <div style={{ position: 'absolute', top: 12, left: 14, zIndex: 10, display: 'flex', alignItems: 'center', gap: 8, pointerEvents: 'none' }}>
+            <span style={{ fontSize: 10, color: L45, letterSpacing: '0.12em' }}>⊞ GRAPH VIEW</span>
+          </div>
+
+          {/* zoom hint */}
+          <div style={{ position: 'absolute', top: 12, right: 14, zIndex: 10, fontSize: 9, color: 'rgba(200,240,37,0.2)', letterSpacing: '0.06em', pointerEvents: 'none' }}>
+            SCROLL TO ZOOM · DRAG NODES
+          </div>
+
+          {/* D3 graph */}
+          <div style={{ flex: 1, overflow: 'hidden' }}>
+            <ForceGraph
+              nodes={NODES}
+              edges={EDGES}
+              filterDomain={filterDomain}
+              filterImpact={filterImpact}
+              searchTerm={searchTerm}
+              cutoffDate={cutoffDate}
+              selectedNodeId={selectedNodeId}
+              onNodeClick={id => setSelectedNodeId(prev => prev === id ? null : id)}
+            />
+          </div>
+
+          {/* Time Machine */}
+          <TimeMachine value={cutoffDate} onChange={setCutoffDate} />
+        </div>
+
+        {/* ════ RIGHT — intel panel ════ */}
+        <div style={{ borderLeft: `1px solid ${L12}`, background: SURF, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+
+          {/* panel header */}
+          <div style={{ padding: '10px 16px', borderBottom: `1px solid ${L12}`, flexShrink: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
+            <span style={{ fontSize: 10, color: L45, letterSpacing: '0.12em' }}>INTEL PANEL</span>
+            {selectedNode && (
+              <>
+                <span style={{ fontSize: 9, color: MUTED }}>·</span>
+                <span style={{ fontSize: 10, color: LIME }}>{selectedNode.name.toUpperCase()}</span>
+              </>
+            )}
+          </div>
+
+          <IntelPanel selectedNode={selectedNode} alerts={alerts} nodes={NODES} edges={EDGES} />
         </div>
       </div>
     </div>

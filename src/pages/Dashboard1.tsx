@@ -31,39 +31,22 @@ const DOMAIN_COLOR: Record<string, string> = {
 
 // ── consequence blurbs per node ───────────────────────────────────────────────
 const CONSEQUENCES: Record<string, { score: number; domains: string[]; bullets: string[] }> = {
-  India:                     { score: 100, domains: ["ALL"],                    bullets: ["Central node — all edges converge here", "Anchor of Bharatiya ontology", "Strategic pivot for every analysis"] },
-  China:                     { score: 91,  domains: ["GEOPOLITICS","DEFENSE"],  bullets: ["BRI encirclement risk to 6 buffer states", "PLA-N dual-use port access near Indian coast", "LAC standoff — 3,000+ forward positions"] },
-  Pakistan:                  { score: 87,  domains: ["DEFENSE","GEOPOLITICS"],  bullets: ["Nuclear-armed, ISI proxy networks active", "CPEC militarises India-Pakistan border arc", "Cross-border terror funding well-documented"] },
-  Nepal:                     { score: 72,  domains: ["GEOPOLITICS","ECONOMICS"],bullets: ["Northern buffer — BRI MoU signed 2017", "Kerung-Kathmandu railway under negotiation", "India-Nepal trade fell 16.6% in Sep 2025"] },
-  "Sri Lanka":               { score: 68,  domains: ["GEOPOLITICS","ECONOMICS"],bullets: ["Hambantota 99yr lease to China Merchants", "200nm from India southern coast", "Chinese influence deepening under Wickremesinghe"] },
-  Bangladesh:                { score: 61,  domains: ["GEOPOLITICS"],            bullets: ["Eastern buffer, dual allegiance risk", "BIMSTEC + SCO observer status", "Bangladesh unrest — instability spillover"] },
-  Myanmar:                   { score: 58,  domains: ["GEOPOLITICS"],            bullets: ["Kyaukpyu port — Bay of Bengal anchor", "Myanmar coup weakens buffer status", "BRI debt deepens China dependency"] },
-  Maldives:                  { score: 64,  domains: ["GEOPOLITICS"],            bullets: ["Muizzu pivot toward China under pressure", "Chinese FTA signed 2024", "India naval access agreements under strain"] },
-  "Gwadar Port":             { score: 83,  domains: ["DEFENSE","ECONOMICS"],    bullets: ["CPEC anchor, PLA-N docking confirmed", "400km from Indian coast — direct threat", "Submarine base construction reports"] },
-  "Hambantota Port":         { score: 79,  domains: ["GEOPOLITICS","ECONOMICS"],bullets: ["99yr lease to China Merchants Port", "200nm from India southern coast", "PLA-N resupply access implications"] },
-  "Strait of Malacca":       { score: 82,  domains: ["ECONOMICS"],              bullets: ["90% of India energy imports pass here", "Chinese naval build-up in South China Sea", "Disruption = economic strangulation"] },
-  "Belt and Road Initiative":{ score: 77,  domains: ["GEOPOLITICS","ECONOMICS"],bullets: ["China strategic debt network", "6 India-adjacent nations now enrolled", "Asset seizure precedent: Hambantota"] },
-  "Rare Earth":              { score: 85,  domains: ["ECONOMICS","TECHNOLOGY"], bullets: ["India imports 72% rare earths from China", "Export delays followed 3 of 4 LAC incidents", "Critical for EV, defense, semiconductor"] },
-  "Rare Earths":             { score: 85,  domains: ["ECONOMICS","TECHNOLOGY"], bullets: ["India imports 72% rare earths from China", "Export delays followed 3 of 4 LAC incidents", "Critical for EV, defense, semiconductor"] },
-  Israel:                    { score: 28,  domains: ["DEFENSE"],                bullets: ["Weapons supplier — Barak, Heron UAV", "Iron Beam tech transfer under negotiation", "Balanced relation, low strategic risk"] },
-  Russia:                    { score: 38,  domains: ["DEFENSE","ECONOMICS"],    bullets: ["S-400, oil at discount — positive", "INSTC corridor reduces Pakistan bypass need", "Ukraine war strain on arms delivery timelines"] },
-  "United States":           { score: 45,  domains: ["DEFENSE","TECHNOLOGY"],   bullets: ["Quad partner, tech + defense deepening", "Pentagon reaffirmed Arunachal as Indian", "Chip export deal under negotiation 2025"] },
-  Quad:                      { score: 62,  domains: ["DEFENSE","GEOPOLITICS"],  bullets: ["Four-nation alliance countering China in Indo-Pacific", "Joint maritime exercises increasing", "India strategic hedge against China"] },
-  Iran:                      { score: 55,  domains: ["ECONOMICS","GEOPOLITICS"],bullets: ["Chabahar Port — bypass route avoiding Pakistan", "Oil imports at discount despite US pressure", "Iran-Israel war threatens Hormuz shipping"] },
-  "Arunachal Pradesh":       { score: 88,  domains: ["GEOPOLITICS","DEFENSE"],  bullets: ["China claims as South Tibet", "PLA infrastructure buildup along border", "Population pressure from Chinese village construction"] },
-  "Line of Actual Control":  { score: 90,  domains: ["DEFENSE","GEOPOLITICS"],  bullets: ["3,488km unresolved border — 59 standoff points", "2020 Galwan clash — 20 Indian soldiers killed", "PLA forward deployment ongoing"] },
-  Kashmir:                   { score: 86,  domains: ["GEOPOLITICS","DEFENSE"],  bullets: ["Nuclear flashpoint — India-Pakistan core dispute", "Article 370 abrogation 2019 changed status quo", "Pakistan-backed proxy networks active"] },
-  "Brahmaputra River":       { score: 80,  domains: ["CLIMATE","GEOPOLITICS"],  bullets: ["China building world largest dam upstream", "Water weapon — flow control affects 50M Indians", "No bilateral water treaty with China"] },
-  CPEC:                      { score: 84,  domains: ["GEOPOLITICS","ECONOMICS"],bullets: ["62B corridor passes through Pakistan-occupied Kashmir", "Militarises India western flank", "Chinese troops embedded in CPEC security"] },
-  Semiconductor:             { score: 78,  domains: ["TECHNOLOGY","ECONOMICS"], bullets: ["India depends on Taiwan/South Korea — both China-adjacent", "Chip war implications for India tech sector", "2026 budget targets domestic semiconductor production"] },
-  Huawei:                    { score: 72,  domains: ["TECHNOLOGY"],             bullets: ["Banned from India 5G after Galwan 2020", "Still present in Bangladesh, Nepal, Pakistan networks", "Intelligence collection risk in neighborhood"] },
-  ISRO:                      { score: 55,  domains: ["TECHNOLOGY"],             bullets: ["Space capability gap vs China CNSA", "Chandrayaan-3 success reduces dependency", "Dual-use satellite tech for defense ISR"] },
-  "PLA Navy":                { score: 88,  domains: ["DEFENSE"],                bullets: ["Indian Ocean presence increasing — 7 bases", "Dual-use port access at Gwadar, Hambantota, Djibouti", "Blue water capability threatens India maritime dominance"] },
-  Doklam:                    { score: 82,  domains: ["DEFENSE","GEOPOLITICS"],  bullets: ["2017 standoff — India blocked Chinese road construction", "Tri-junction India-China-Bhutan — strategic chokepoint", "Chinese infrastructure continues post-standoff"] },
-  Q668:                      { score: 100, domains: ["ALL"],                    bullets: ["Central node", "Anchor of Bharatiya ontology", "Strategic pivot"] },
-  Q148:                      { score: 91,  domains: ["GEOPOLITICS","DEFENSE"],  bullets: ["BRI encirclement", "PLA-N dual-use ports", "LAC standoff"] },
-  Q843:                      { score: 87,  domains: ["DEFENSE","GEOPOLITICS"],  bullets: ["Nuclear-armed", "CPEC militarises border", "Cross-border terror"] },
+  Q668:    { score: 100, domains: ['ALL'],                    bullets: ['Central node — all edges converge here', 'Anchor of Bharatiya ontology', 'Strategic pivot for every analysis'] },
+  Q148:    { score: 91,  domains: ['GEOPOLITICS','DEFENSE'],  bullets: ['BRI encirclement risk to 6 buffer states', 'PLA-N dual-use port access near Indian coast', 'LAC standoff — 3,000+ forward positions'] },
+  Q843:    { score: 87,  domains: ['DEFENSE','GEOPOLITICS'],  bullets: ['Nuclear-armed, ISI proxy networks active', 'CPEC militarises India-Pakistan border arc', 'Cross-border terror funding well-documented'] },
+  Q837:    { score: 72,  domains: ['GEOPOLITICS','ECONOMICS'],bullets: ['Northern buffer — BRI MoU signed 2017', 'Kerung-Kathmandu railway under negotiation', 'India-Nepal trade fell 16.6% in Sep 2025'] },
+  Q854:    { score: 68,  domains: ['GEOPOLITICS','ECONOMICS'],bullets: ['Hambantota 99yr lease to China Merchants', '200nm from India\'s southern coast', 'Chinese oil refinery announced Q1 2025'] },
+  Q902:    { score: 61,  domains: ['GEOPOLITICS'],            bullets: ['Eastern buffer, dual allegiance risk', 'BIMSTEC + SCO observer status', 'Bangladesh unrest — instability spillover'] },
+  Q836:    { score: 58,  domains: ['GEOPOLITICS'],            bullets: ['Kyaukpyu port — Bay of Bengal anchor', 'Myanmar coup weakens buffer status', 'BRI debt deepens China dependency'] },
+  Gwadar:  { score: 83,  domains: ['DEFENSE','ECONOMICS'],   bullets: ['CPEC anchor, PLA-N docking confirmed', '400km from Indian coast — direct threat', 'Submarine base construction reports'] },
+  Malacca: { score: 79,  domains: ['ECONOMICS'],              bullets: ['80% of India\'s energy imports pass here', 'Chinese naval build-up in South China Sea', 'Disruption = economic strangulation'] },
+  BRI:     { score: 77,  domains: ['GEOPOLITICS','ECONOMICS'],bullets: ['China\'s strategic debt network', '6 India-adjacent nations now enrolled', 'Asset seizure precedent: Hambantota'] },
+  RE:      { score: 85,  domains: ['ECONOMICS','TECHNOLOGY'], bullets: ['India imports 72% rare earths from China', 'Export delays followed 3 of 4 LAC incidents', 'Critical for EV, defense, semiconductor'] },
+  IL:      { score: 22,  domains: ['DEFENSE'],                bullets: ['Weapons supplier — Barak, Heron UAV', 'Shared tech cooperation deepening', 'Balanced relation, low strategic risk'] },
+  RU:      { score: 34,  domains: ['DEFENSE','ECONOMICS'],    bullets: ['S-400, oil at discount — positive', 'INSTC corridor reduces Pakistan bypass need', 'Ukraine war strain on arms delivery'] },
+  US:      { score: 45,  domains: ['DEFENSE','TECHNOLOGY'],   bullets: ['Quad partner, tech + defense deepening', 'Pentagon reaffirmed Arunachal as Indian', 'Chip export deal under negotiation 2025'] },
 }
+
 const NAV_ITEMS = [
   { label: 'TERMINAL',  path: '/terminal'  },
   { label: 'DASHBOARD', path: '/dashboard' },
@@ -937,15 +920,7 @@ export default function Dashboard() {
     lng:         0,
     type:        (n.ontology_category || 'neutral') as any,
     wikidataId:  n.wikidata_id || '',
-    impactScore: (() => {
-      const cat = n.ontology_category || 'neutral'
-      const scoreMap: Record<string,number> = {
-        adversary: 88, border_flux_zone: 85, string_of_pearls: 80,
-        chokepoint: 78, dependency_vector: 75, military_actor: 70,
-        buffer_state: 65, allied_nation: 45, neutral: 30,
-      }
-      return scoreMap[cat] ?? 30
-    })(),
+    impactScore: 50,
     confidence:  0.75,
   }))
 
