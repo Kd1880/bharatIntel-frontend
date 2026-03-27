@@ -1,24 +1,38 @@
 /**
  * BharatGraph API Service
  * Single source of truth for all backend calls.
- * Base URL: http://localhost:8000
+ * Base URL: read from VITE_API_URL env variable
  *
  * Usage:
  *   import { api } from '../api/bharatgraph'
  *   const stats = await api.stats()
+ *
+ * .env (or .env.local):
+ *   VITE_API_URL=http://localhost:8000
+ *   VITE_API_URL=https://bharatintel-backend.onrender.com
+ *   ← no trailing slash needed either way
  */
 
-const BASE = 'http://localhost:8000'
+const BASE = import.meta.env.VITE_API_URL;
+
+// ── safe URL builder ───────────────────────────────────────────────────────────
+// Guarantees exactly one slash between BASE and path,
+// regardless of whether BASE has a trailing slash or not.
+function url(path: string): string {
+  const base = (BASE as string).replace(/\/$/, '')
+  const p    = path.startsWith('/') ? path : `/${path}`
+  return `${base}${p}`
+}
 
 // ── helpers ───────────────────────────────────────────────────────────────────
 async function get<T>(path: string): Promise<T> {
-  const res = await fetch(`${BASE}${path}`)
+  const res = await fetch(url(path))
   if (!res.ok) throw new Error(`GET ${path} → ${res.status} ${res.statusText}`)
   return res.json()
 }
 
 async function post<T>(path: string, body: unknown): Promise<T> {
-  const res = await fetch(`${BASE}${path}`, {
+  const res = await fetch(url(path), {
     method:  'POST',
     headers: { 'Content-Type': 'application/json' },
     body:    JSON.stringify(body),
@@ -212,7 +226,7 @@ export const api = {
 
 // ── React hooks ───────────────────────────────────────────────────────────────
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 
 /** Auto-refreshing subgraph hook. Polls every 60s. */
 export function useGraph(domain?: string, impact?: string) {
@@ -262,9 +276,9 @@ export function useStats() {
 
 /** One-shot What-If hook. Call simulate(nodeId) to run. */
 export function useWhatIf() {
-  const [result,     setResult]     = useState<WhatIfResponse | null>(null)
-  const [loading,    setLoading]    = useState(false)
-  const [error,      setError]      = useState<string | null>(null)
+  const [result,  setResult]  = useState<WhatIfResponse | null>(null)
+  const [loading, setLoading] = useState(false)
+  const [error,   setError]   = useState<string | null>(null)
 
   const simulate = (node_id: string) => {
     setLoading(true)
