@@ -8,7 +8,7 @@
  *   const stats = await api.stats()
  */
 
-const BASE = 'http://localhost:8000'
+const BASE = (import.meta.env.VITE_API_URL as string | undefined)?.replace(/\/$/, '') || 'http://localhost:8000'
 
 // ── helpers ───────────────────────────────────────────────────────────────────
 async function get<T>(path: string): Promise<T> {
